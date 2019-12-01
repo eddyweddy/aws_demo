@@ -11,24 +11,17 @@
 - name: Display AMI found
   debug: var=ami_find
 
-#- name: Assume role to provision ec2
-#  sts_assume_role:
-#    role_arn: "{{ provisioning_role_arn }}"
-#    role_session_name: "ProvisioningEC2"
-#  register: assumed_role
-
 - name: Provision EC2 with {{ hip_ami.content }}
   ec2:
-    aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
-    aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
-    security_token: "{{ assumed_role.sts_creds.session_token }}"
+#    aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
+#    aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+#    security_token: "{{ assumed_role.sts_creds.session_token }}"
     key_name: "{{ key_name }}"
     instance_type: "{{ instance_type }}"
     image: "{{ ami_find.results[0].ami_id }}"
     vpc_subnet_id: "{{ vpc_subnet_id }}"
     group_id: "{{ security_group_id }}"
     region: "{{ region }}"
-    instance_profile_name: "{{ instance_profile_name }}"
     volumes:
 #      - device_name: /dev/sda1
 #        volume_size: "{{ ami_root_volume_size }}"
