@@ -1,10 +1,6 @@
-hip_owner             : 522412867873
-hip_latest_endpoint   : "https://patching-server-hui.ext.national.com.au/images/aws/centos/7/latest"
-ami_prefix            : hip-hui-ol-7
-#key_name              : efx-nonprod
-instance_type         : m5.large
-ami_root_volume_size  : 30
+# Basic details on what instance will be created. I am using the free-tier for this demo
+key_name                : dev-nonprod
+instance_type           : t3.micro
+ami_root_volume_size    : 8
 security_group_id       :       sg-0dc0a9a5c575593a7
 
-instance_profile_name   :       EFXAppServerInstanceProfile
-instance_tenancy        :       default

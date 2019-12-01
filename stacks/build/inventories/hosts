@@ -1,3 +1,2 @@
 [aws]
 local ansible_connection=local
-

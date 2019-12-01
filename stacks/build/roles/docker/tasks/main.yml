@@ -1,15 +1,5 @@
 - name: Add Docker repository
-  yum_repository:
-    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-    name: docker
-    description: Docker YUM repo
-  become: yes
-
-
-- name: Install Docker
-  package:
-    name: docker-ce
-    state: latest
+  command: amazon-linux-extras install docker
   become: yes
 
 
