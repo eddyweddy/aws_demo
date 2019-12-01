@@ -1,8 +1,2 @@
 
 
-PROXY_HOST: forwardproxy.extnp.national.com.au
-PROXY_PORT: 3128
-PROXY_BYPASS:
-  - localhost
-  - patching-server-hui.ext.national.com.au
-  - .ext.national.com.au,.aus.thenational.com

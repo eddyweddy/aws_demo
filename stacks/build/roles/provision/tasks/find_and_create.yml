@@ -1,17 +1,21 @@
-- name: get Latest HIP AMI ID
-  uri:
-    url: "{{ hip_latest_endpoint }}"
-    return_content: yes
-  register: hip_ami
+- name: get Latest Amazon AMI ID
+  ec2_ami_find:
+    owner: 137112412989
+    name: "amzn2-ami-hvm-2[0-9.]+-arm64-gp2"
+    is_public: yes
+    sort_order: descending
+    sort_end: 1
+  register: ami_find
+
 
 - name: Display AMI found
-  debug: var=hip_ami
+  debug: var=ami_find
 
-- name: Assume role to provision ec2
-  sts_assume_role:
-    role_arn: "{{ provisioning_role_arn }}"
-    role_session_name: "ProvisioningEC2"
-  register: assumed_role
+#- name: Assume role to provision ec2
+#  sts_assume_role:
+#    role_arn: "{{ provisioning_role_arn }}"
+#    role_session_name: "ProvisioningEC2"
+#  register: assumed_role
 
 - name: Provision EC2 with {{ hip_ami.content }}
   ec2:
@@ -20,20 +24,18 @@
     security_token: "{{ assumed_role.sts_creds.session_token }}"
     key_name: "{{ key_name }}"
     instance_type: "{{ instance_type }}"
-    image: "{{ hip_ami.content | trim }}"
+    image: "{{ ami_find.results[0].ami_id }}"
     vpc_subnet_id: "{{ vpc_subnet_id }}"
     group_id: "{{ security_group_id }}"
     region: "{{ region }}"
     instance_profile_name: "{{ instance_profile_name }}"
     volumes:
-      - device_name: /dev/sda1
-        volume_size: "{{ ami_root_volume_size }}"
+#      - device_name: /dev/sda1
+#        volume_size: "{{ ami_root_volume_size }}"
         volume_type: gp2
         delete_on_termination: true
     instance_tags:
-      CostCentre: V_EFXSales
       Name: demo_build
-      ApplicationID: BA0254
   delegate_to: 127.0.0.1
   register: ec2
 
