@@ -1,0 +1,10 @@
+- hosts: aws
+  roles:
+    - { role: provision, server: "{{ demo_server }}" }
+
+- hosts: "{{ demo_server }}"
+  connection: ssh
+  gather_facts: true
+  user: ec2-user
+  roles:
+    - { role: "{{ demo_server }}" }

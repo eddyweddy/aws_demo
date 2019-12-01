@@ -1,0 +1,5 @@
+#common AWS values used by all roles
+
+vpc_subnet_id           :       subnet-06353f94d6b0dedd5
+region                  :       ap-southeast-2
+provisioning_role_arn   :       "arn:aws:iam::344759785364:role/EFXProvisioningRole"

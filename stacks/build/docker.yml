@@ -1,0 +1,6 @@
+- hosts: all
+  connection: ssh
+  gather_facts: true
+  user: ec2-user
+  roles:
+    - { role: docker }
