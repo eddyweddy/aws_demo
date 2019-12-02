@@ -1,1 +1,5 @@
 .idea
+/stacks/nginx_demo/infrastructure/terraform.tfstate
+/stacks/nginx_demo/infrastructure/terraform.tfstate.backup
+/stacks/nginx_demo/infrastructure/.terraform
+/stacks/nginx_demo/infrastructure/tf.plan

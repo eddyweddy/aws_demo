@@ -11,7 +11,7 @@
 - name: Display AMI found
   debug: var=ami_find
 
-- name: Provision EC2 with {{ hip_ami.content }}
+- name: Provision EC2 with {{ ami_find.content }}
   ec2:
 #    aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
 #    aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
@@ -25,10 +25,11 @@
     volumes:
 #      - device_name: /dev/sda1
 #        volume_size: "{{ ami_root_volume_size }}"
-        volume_type: gp2
+#        volume_type: gp2
         delete_on_termination: true
     instance_tags:
       Name: demo_build
+      purpose : fancy_aws_demo
   delegate_to: 127.0.0.1
   register: ec2
 

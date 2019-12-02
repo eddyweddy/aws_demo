@@ -1,16 +1,25 @@
 
 resource "aws_vpc" "aws_demo" {
   cidr_block = "10.1.0.0/24"
+  tags = {
+    purpose = var.tag_purpose
+  }
 }
 
 resource "aws_subnet" "demo-sub-1" {
   vpc_id = aws_vpc.aws_demo.id
   cidr_block = "10.1.0.0/26"
   map_public_ip_on_launch = "true"
+  tags = {
+    purpose = var.tag_purpose
+  }
 }
 
 resource "aws_internet_gateway" "aws_demo_igw" {
   vpc_id = aws_vpc.aws_demo.id
+  tags = {
+    purpose = var.tag_purpose
+  }
 }
 
 resource "aws_route_table" "aws_demo_rt" {
@@ -21,9 +30,32 @@ resource "aws_route_table" "aws_demo_rt" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.aws_demo_igw.id
   }
+  tags = {
+    purpose = var.tag_purpose
+  }
 }
 
 resource "aws_route_table_association" "aws_demo_public_subnet" {
   route_table_id = aws_route_table.aws_demo_rt.id
   subnet_id = aws_subnet.demo-sub-1.id
+}
+
+resource "aws_security_group" "aws_demo_sg" {
+  vpc_id = aws_vpc.aws_demo.id
+//  allow http from anywhere
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = var.world_access
+  }
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = var.world_access
+  }
+  tags = {
+    purpose = var.tag_purpose
+  }
 }

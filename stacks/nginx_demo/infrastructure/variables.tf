@@ -2,3 +2,5 @@
 #
 
 variable "region" {}
+variable "tag_purpose" {}
+variable "world_access" {}
