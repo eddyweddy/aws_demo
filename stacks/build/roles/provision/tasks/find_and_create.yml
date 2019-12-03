@@ -1,3 +1,4 @@
+# The tasks here are used for provisioning an EC2 with Ansible
 - name: get Latest Amazon AMI ID
   ec2_ami_facts:
     image_ids:  ami-0119aa4d67e59007c

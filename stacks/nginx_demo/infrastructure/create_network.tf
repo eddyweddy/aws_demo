@@ -1,4 +1,7 @@
-
+// Creates a simple VPC with 1 subnet, a gateway for internet access and a route to that gateway,
+// which has to be associated to our subnet
+// Also creating a basic security group that allows us to SSH and http into and from our EC2s.
+// The security group has world access as I do not know which network to restrict to.
 resource "aws_vpc" "aws_demo" {
   cidr_block = "10.1.0.0/24"
   tags = {

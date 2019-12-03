@@ -1,3 +1,4 @@
+# The tasks here are for install docker and pulling the standard nginx container from dockerhub
 - name: Add Docker repository
   command: amazon-linux-extras install docker
   become: yes
@@ -8,4 +9,8 @@
     name: docker
     state: started
     enabled: yes
+  become: yes
+
+- name: get nginx container
+  command: docker run --name mynginx1 -p 80:80 -d nginx
   become: yes

@@ -1,4 +1,0 @@
-- name: create a new ec2 key pair, returns generated private key
-  ec2_key:
-    name: demo_dev_keypair
-    region: "{{ region }}"

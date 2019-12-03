@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import httplib
-import httplibfrom operator import itemgetter
+import httplib from operator import itemgetter
 import re
 
 def get_webpage(site,page):
@@ -20,7 +20,7 @@ def get_freqct(list):
     return freqct
 
 def main():
-    data = get_webpage('en.wikipedia.org',"/wiki/Python_(programming_language)")
+    data = get_webpage('54.206.71.106',"/")
     data = re.sub(r'<[^>]+>','',data)
     d = get_freqct(data.split(' '))
     sol = sorted(d.items(), key=itemgetter(1))

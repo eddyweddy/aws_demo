@@ -1,3 +1,4 @@
+// Creates a EC2 instance from the latest available Amazon linux AMI and runs Ansible to install additional software
 data "aws_ami" "amazon" {
   most_recent = true
   name_regex = "amzn2-ami-hvm-[0-9.]+.0-x86_64-gp2"
@@ -15,6 +16,8 @@ resource "aws_instance" "aws_demo" {
   security_groups             = [aws_security_group.aws_demo_sg.id]
   subnet_id                   = aws_subnet.demo-sub-1.id
   associate_public_ip_address = true
+  key_name                    = "dev-nonprod"
+  iam_instance_profile = aws_iam_instance_profile.aws_demo_profile.name
 
   tags = {
     purpose = var.tag_purpose
@@ -33,7 +36,7 @@ resource "aws_instance" "aws_demo" {
 
 //  Execute ansible scripts to install docker
   provisioner "local-exec" {
-    command = "cd ../../../Common/scripts; bash ./install_docker.sh 'self.public_ip'"
+    command = "cd ../../../Common/scripts; bash ./install_docker.sh '${self.public_ip}'"
   }
 
 }
