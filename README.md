@@ -39,3 +39,8 @@ This script is used for counting the occurrence of words on the default nginx pa
 + Public IPs direct to the EC2 instances had to be exposed to allow Ansible from a desktop to execute.
 + Could have auto created the key pair for ssh to work. But decided that was not a priority, since its a once off task
 + Terraform state files are stored directly on the local file system
+
+### Cleanup
+```bash
+./destroy_demo_stack.sh
+``` 
