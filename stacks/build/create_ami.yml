@@ -1,4 +1,5 @@
 - hosts: aws
+  connection: local
   roles:
     - { role: provision, server: "{{ demo_server }}" }
 

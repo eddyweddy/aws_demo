@@ -1,35 +1,25 @@
 - name: get Latest Amazon AMI ID
-  ec2_ami_find:
-    owner: 137112412989
-    name: "amzn2-ami-hvm-2[0-9.]+-arm64-gp2"
-    is_public: yes
-    sort_order: descending
-    sort_end: 1
+  ec2_ami_facts:
+    image_ids:  ami-0119aa4d67e59007c
   register: ami_find
 
 
 - name: Display AMI found
   debug: var=ami_find
 
-- name: Provision EC2 with {{ ami_find.content }}
+- name: Provision EC2
   ec2:
-#    aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
-#    aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
-#    security_token: "{{ assumed_role.sts_creds.session_token }}"
     key_name: "{{ key_name }}"
     instance_type: "{{ instance_type }}"
-    image: "{{ ami_find.results[0].ami_id }}"
+    image: "{{ ami_id }}"
     vpc_subnet_id: "{{ vpc_subnet_id }}"
     group_id: "{{ security_group_id }}"
     region: "{{ region }}"
-    volumes:
-#      - device_name: /dev/sda1
-#        volume_size: "{{ ami_root_volume_size }}"
-#        volume_type: gp2
-        delete_on_termination: true
+    assign_public_ip: yes
+    wait: yes
     instance_tags:
-      Name: demo_build
-      purpose : fancy_aws_demo
+      Name: "demo_build"
+      purpose : "fancy_aws_demo"
   delegate_to: 127.0.0.1
   register: ec2
 
@@ -38,14 +28,14 @@
 
 - name: Add the newly created EC2 instances to the memory file
   add_host:
-    hostname: "{{ item.private_ip  }}"
+    hostname: "{{ item.public_ip  }}"
     groups: "{{ server }}"
   with_items: "{{ ec2.instances }}"
 
 
 - name: Wait for SSH process to be available
   wait_for:
-    host: "{{ item.private_ip }}"
+    host: "{{ item.public_ip }}"
     port: 22
     delay: 60
     timeout: 320
