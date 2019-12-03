@@ -11,8 +11,18 @@ resource "aws_vpc" "aws_demo" {
 
 resource "aws_subnet" "demo-sub-1" {
   vpc_id = aws_vpc.aws_demo.id
-  cidr_block = "10.1.0.0/26"
+  cidr_block = "10.1.0.0/25"
   map_public_ip_on_launch = "true"
+  availability_zone = "ap-southeast-2a"
+  tags = {
+    purpose = var.tag_purpose
+  }
+}
+resource "aws_subnet" "demo-sub-2" {
+  vpc_id = aws_vpc.aws_demo.id
+  cidr_block = "10.1.0.128/25"
+  map_public_ip_on_launch = "true"
+  availability_zone = "ap-southeast-2b"
   tags = {
     purpose = var.tag_purpose
   }
@@ -38,9 +48,14 @@ resource "aws_route_table" "aws_demo_rt" {
   }
 }
 
-resource "aws_route_table_association" "aws_demo_public_subnet" {
+resource "aws_route_table_association" "aws_demo_public_subnet_1" {
   route_table_id = aws_route_table.aws_demo_rt.id
   subnet_id = aws_subnet.demo-sub-1.id
+}
+
+resource "aws_route_table_association" "aws_demo_public_subnet_2" {
+  route_table_id = aws_route_table.aws_demo_rt.id
+  subnet_id = aws_subnet.demo-sub-2.id
 }
 
 resource "aws_security_group" "aws_demo_sg" {
