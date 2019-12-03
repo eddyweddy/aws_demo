@@ -15,7 +15,7 @@ resource "aws_instance" "aws_demo" {
   instance_type               = var.instance_type
   security_groups             = [aws_security_group.aws_demo_sg.id]
   subnet_id                   = aws_subnet.demo-sub-1.id
-//  associate_public_ip_address = true
+  associate_public_ip_address = true
   key_name                    = "dev-nonprod"
   iam_instance_profile = aws_iam_instance_profile.aws_demo_profile.name
 
