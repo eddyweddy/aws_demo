@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
+# Quick and dirty python script that reads a webpage, then counts the occurrence of words, then sorts them
+
 import httplib
 import re
+import sys
 
 from operator import itemgetter
 
@@ -22,13 +25,15 @@ def get_frequency_count(list):
     return freqct
 
 def main():
-    data = get_webpage('54.206.71.106',"/")
+    data = get_webpage(sys.argv[1],"/")
     data = re.sub(r'<[^>]+>','',data)
     d = get_frequency_count(data.split(' '))
     sorted_data = sorted(d.items(), key=itemgetter(1), reverse=True)
-    print sorted_data
-    # for word,count in sorted_data:
-    #     print word, ":", count
+    # Print entire list
+    for word,count in sorted_data:
+        print word, ":", count
+    # Print the head of the list, its sorted, so this one is the top occuring word
+    print "most frequent word: ", sorted_data[1]
 
 if __name__ == "__main__":
     main()
