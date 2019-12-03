@@ -12,8 +12,7 @@ Access to a Terraform binary, I used
 + aws cli
 + Your own key pair in AWS
 
-Direct access to an aws account from the command line. Lets assume awscli and credentials have been set up.
-Your aws cli is attached to an IAM role that can create and destroy stuff :)
+Direct access to an aws account from the command line. Lets assume awscli and credentials have been set up, and your aws cli is attached to a provisioning IAM role that can create and destroy stuff :)
 
 Once you have a keypair, please replace any occurrence of "dev-nonprod.pem" with your own private key to allow ssh to work.
 That should be in
@@ -36,6 +35,7 @@ To verify, you can run
 This script is used for counting the occurrence of words on the default nginx page
 
 ### Limitations
-+ This is no high availability or auto scaling.
++ There is no high availability or auto scaling.
 + Public IPs direct to the EC2 instances had to be exposed to allow Ansible from a desktop to execute.
 + Could have auto created the key pair for ssh to work. But decided that was not a priority, since its a once off task
++ Terraform state files are stored directly on the local file system
